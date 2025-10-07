@@ -9,9 +9,11 @@ int main() {
     // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
     int tabuleiro[10][10];
     // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    int naviov[3] = {1,1,1};
-    int navioh[3] = {2,2,2}; // tamanho dos navios vertical e horizontal
-    int pivlinha, pivcol, pihlinha, pihcol; // posições iniciais
+    int naviov[3] = {3,3,3};
+    int navioh[3] = {3,3,3};
+    int naviod1[3] = {3,3,3};
+    int naviod2[3] = {3,3,3}; // tamanho dos navios vertical, horizontal e diagonais
+    int pivlinha, pivcol, pihlinha, pihcol, pid1linha, pid1col, pid2linha, pid2col; // posições iniciais
     int i,j; // auxiliares
 
     for (i=0;i<10;i++){ // Iniciar todas as posições como água "0", vertical
@@ -24,8 +26,13 @@ int main() {
     pivcol = 9;
     pihlinha = 9;
     pihcol = 7; // começa na oitava coluna, não pode ser maior que 7
+    pid1linha = 5;
+    pid1col = 5;
+    pid2linha = 9;
+    pid2col = 0;
 
-    if (pivlinha>7 || pihcol>7){
+
+    if (pivlinha>7 || pihcol>7 || pid1col>7 || pid1linha >7 || pid2col>7 || pid2linha<2){
         printf("Posição inicial ultrapassa tabuleiro");
         return 0;
     }
@@ -37,8 +44,18 @@ int main() {
                 return 0;
              }else{
                 if(tabuleiro[pihcol+j][pihlinha]!=0){
-                printf("Posição sobreposta no navio horizontal");
-                return 0;
+                    printf("Posição sobreposta no navio horizontal");
+                    return 0;
+                }else{
+                    if(tabuleiro[pid1col+j][pid1linha+j]!=0){
+                        printf("Posição sobreposta no navio diagonal 1");
+                        return 0;
+                    }else{
+                        if(tabuleiro[pid2col+j][pid2linha+j]!=0){
+                            printf("Posição sobreposta no navio diagonal 2");
+                            return 0;
+                        }
+                    }
                 }
              }
         }
@@ -55,6 +72,16 @@ int main() {
                 tabuleiro[i][j]=navioh[0];
                 tabuleiro[i][j+1]=navioh[1];
                 tabuleiro[i][j+2]=navioh[2];
+            }
+            if(i==pid1linha && j==pid1col){
+                tabuleiro[i][j]=naviod1[0];
+                tabuleiro[i+1][j+1]=naviod1[1];
+                tabuleiro[i+2][j+2]=naviod1[2];
+            }
+            if(i==pid2linha && j==pid2col){
+                tabuleiro[i][j]=naviod2[0];
+                tabuleiro[i-1][j+1]=naviod2[1];
+                tabuleiro[i-2][j+2]=naviod2[2];
             }
         }
     }
